@@ -6,9 +6,11 @@
 package learnstream;
 
 import static java.util.Arrays.asList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -35,7 +37,8 @@ public class LearnStream {
         
 
        List<Teenager> teensList = persons.stream().
-               
+               map(Function.identity()).// с идентити
+               map(x->x). // без идентити
                map(p -> new Teenager(p)).
                collect(Collectors.toList());
         System.out.println(teenagers.get(0).getName());
@@ -47,6 +50,12 @@ public class LearnStream {
                filter(p -> p.getAge() >=50).
                collect(Collectors.toMap(p-> p.getName().toUpperCase(), p->p));
         
+       
+       final Comparator<Person> comp = (p1,p2) -> Integer.compare(p1.getAge(), p2.getAge());
+       Person oldestPerson = persons.stream().
+               max(comp).get();
+               
+        System.out.println(oldestPerson);
     }
     
 }
